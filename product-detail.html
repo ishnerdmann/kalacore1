@@ -1,0 +1,474 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Kalacore Fine Art Studio</title>
+    <link rel="stylesheet" href="style.css?v=1.9">
+    <!-- Libs -->
+    <link rel="icon" type="image/svg+xml" href="logo.svg">
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.2/gsap.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.2/ScrollTrigger.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/gh/studio-freight/lenis@1.0.29/bundled/lenis.min.js"></script>
+    <script src="main.js?v=1.9" defer></script>
+
+    <style>
+        /* Inline critical styles to prevent flicker even if CSS is cached */
+        .detail-img-wrap.loading {
+            position: relative;
+            overflow: hidden;
+            min-height: 400px;
+            background: #f8f8f8;
+        }
+        .detail-img-wrap.loading::after {
+            content: "";
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: linear-gradient(90deg, #f0f0f0 25%, #f8f8f8 50%, #f0f0f0 75%);
+            background-size: 200% 100%;
+            animation: skeleton-loading 1.5s infinite;
+            z-index: 2;
+        }
+        @keyframes skeleton-loading {
+            0% { background-position: 200% 0; }
+            100% { background-position: -200% 0; }
+        }
+        .detail-main-img {
+            opacity: 0;
+            transition: opacity 0.6s ease;
+        }
+        .detail-main-img.loaded {
+            opacity: 1;
+        }
+    </style>
+</head>
+<body class="product-page-body">
+
+    <!-- Custom Cursor Elements -->
+    <div class="cursor-dot" id="cursorDot"></div>
+    <div class="cursor-drop" id="cursorDrop"></div>
+
+    <!-- ────────── NAVIGATION ────────── -->
+    <nav class="navbar shop-navbar" id="navbar">
+        <div class="shop-nav-left">
+            <a href="index.html" class="nav-logo" aria-label="Kalacore Home">
+                <img src="logo.svg" alt="Kalacore Logo" class="logo-svg">
+            </a>
+        </div>
+        <ul class="nav-links shop-nav-links">
+            <li><a href="index.html">Home</a></li>
+            <li><a href="products.html#all-art">Shop</a></li>
+            <li><a href="commission.html">Custom</a></li>
+            <li><a href="index.html#about">About</a></li>
+        </ul>
+        <div class="shop-nav-right">
+            <a href="commission.html" class="shop-cta">Commission Art &rarr;</a>
+        </div>
+        <button class="nav-menu-toggle" aria-label="Menu">
+            <span></span><span></span>
+        </button>
+    </nav>
+
+    <!-- ────────── PRODUCT DETAIL ────────── -->
+    <main class="product-detail-container">
+        <div class="shop-container">
+            <a href="products.html" class="back-link">← Back to collection</a>
+
+            <div class="product-detail-grid">
+                <!-- Left: Large Image -->
+                <div class="product-visual">
+                    <div class="detail-img-wrap loading">
+                        <img src="" alt="" class="detail-main-img">
+                    </div>
+                </div>
+
+                <!-- Right: Product Info -->
+                <div class="product-meta-wrap">
+                    <p class="product-cat-label handwritten"></p>
+                    <h1 class="product-main-title"></h1>
+                    <p class="product-artist-tag"></p>
+                    <p class="product-detail-price"></p>
+
+                    <div class="product-description">
+                        <p></p>
+                    </div>
+
+                    <div class="product-specs-grid">
+                        <div class="spec-item">
+                            <span class="spec-label">Medium</span>
+                            <span class="spec-val"></span>
+                        </div>
+                        <div class="spec-item">
+                            <span class="spec-label">Size</span>
+                            <span class="spec-val"></span>
+                        </div>
+                        <div class="spec-item">
+                            <span class="spec-label">Year</span>
+                            <span class="spec-val"></span>
+                        </div>
+                        <div class="spec-item">
+                            <span class="spec-label">Edition</span>
+                            <span class="spec-val"></span>
+                        </div>
+                    </div>
+
+                    <a href="#" class="whatsapp-book-btn">
+                        <svg width="20" height="20" viewBox="0 0 24 24" fill="currentColor">
+                            <path d="M.057 24l1.687-6.163c-1.041-1.804-1.588-3.849-1.587-5.946.003-6.556 5.338-11.891 11.893-11.891 3.181.001 6.167 1.24 8.413 3.488 2.246 2.248 3.484 5.232 3.484 8.412-.003 6.557-5.338 11.892-11.893 11.892-1.997-.001-3.951-.5-5.688-1.448l-6.309 1.656zm6.224-3.82l.303.18c1.397.831 3.013 1.27 4.673 1.271 5.233 0 9.491-4.258 9.493-9.493.002-2.537-.987-4.922-2.787-6.723s-4.187-2.79-6.723-2.791c-5.233 0-9.491 4.258-9.493 9.493-.001 1.745.476 3.447 1.381 4.93l.198.324-1.107 4.04 4.14-1.085z"/>
+                            <path d="M17.476 14.304c-.329-.165-1.947-.96-2.249-1.07-.302-.109-.522-.165-.742.165-.219.329-.851 1.07-1.042 1.29-.191.219-.383.246-.712.081-.329-.165-1.389-.512-2.645-1.631-.977-.872-1.636-1.95-1.828-2.279-.191-.329-.02-.507.145-.671.148-.148.329-.383.493-.575.165-.192.219-.329.329-.548.11-.219.055-.411-.027-.575-.082-.164-.742-1.787-1.015-2.445-.267-.641-.539-.555-.742-.565-.192-.01-.411-.011-.63-.011s-.575.082-.876.411c-.301.33-1.15 1.123-1.15 2.738 0 1.616 1.178 3.177 1.342 3.396.164.219 2.318 3.54 5.615 4.965.784.339 1.396.541 1.874.693.788.251 1.505.215 2.072.13.632-.094 1.947-.795 2.221-1.562.273-.767.273-1.424.192-1.561-.081-.137-.301-.219-.63-.384z"/>
+                        </svg>
+                        Book on WhatsApp
+                    </a>
+                    <p class="shipping-info-text">Free packing · Insured shipping across India · Reply within a few hours</p>
+                </div>
+            </div>
+
+            <!-- ────────── RELATED PRODUCTS ────────── -->
+            <section class="related-products-section">
+                <div class="related-header">
+                    <h2 class="related-title">You may also love</h2>
+                    <a href="products.html#all-art" class="see-more-link">See More &rarr;</a>
+                </div>
+                <div class="product-grid">
+                    <!-- Related 1 -->
+                    <a href="product-detail.html?id=kashi-bhor" class="product-card-link">
+                        <div class="product-card">
+                            <div class="product-img-wrap">
+                                <div class="badge-row">
+                                    <span class="badge discount">27% OFF</span>
+                                </div>
+                                <img src="The silence of nature.jpg.jpeg" alt="Kashi Bhor" class="product-img">
+                            </div>
+                            <div class="product-info">
+                                <h3 class="product-title">Kashi Bhor</h3>
+                                <p class="product-subtitle">Ishaan Mehta · Watercolor</p>
+                                <div class="product-rating">
+                                    <div class="rating-box"><span class="rating-val">4.6</span><span class="star">★</span></div>
+                                    <span class="reviews">(89)</span>
+                                </div>
+                                <div class="product-pricing">
+                                    <span class="price-now">₹6,200</span>
+                                    <span class="price-old">₹8,500</span>
+                                    <span class="discount-pct">27% off</span>
+                                </div>
+                                <p class="product-footer">Free shipping · Insured delivery</p>
+                            </div>
+                        </div>
+                    </a>
+
+                    <!-- Related 2 -->
+                    <a href="product-detail.html?id=vrindavan-leela" class="product-card-link">
+                        <div class="product-card">
+                            <div class="product-img-wrap">
+                                <div class="badge-row">
+                                    <span class="badge premium">PREMIUM</span>
+                                    <span class="badge discount">24% OFF</span>
+                                </div>
+                                <img src="3.jpg" alt="Vrindavan Leela" class="product-img">
+                            </div>
+                            <div class="product-info">
+                                <h3 class="product-title">Vrindavan Leela</h3>
+                                <p class="product-subtitle">Radhika Joshi · Pichwai</p>
+                                <div class="product-rating">
+                                    <div class="rating-box"><span class="rating-val">4.9</span><span class="star">★</span></div>
+                                    <span class="reviews">(67)</span>
+                                </div>
+                                <div class="product-pricing">
+                                    <span class="price-now">₹14,500</span>
+                                    <span class="price-old">₹19,000</span>
+                                    <span class="discount-pct">24% off</span>
+                                </div>
+                                <p class="product-footer">Free shipping · Insured delivery</p>
+                            </div>
+                        </div>
+                    </a>
+
+                    <!-- Related 3 -->
+                    <a href="product-detail.html?id=the-calm-soul" class="product-card-link">
+                        <div class="product-card">
+                            <div class="product-img-wrap">
+                                <div class="badge-row">
+                                    <span class="badge discount">26% OFF</span>
+                                </div>
+                                <img src="calm-soul.png" alt="Smriti" class="product-img">
+                            </div>
+                            <div class="product-info">
+                                <h3 class="product-title">Smriti</h3>
+                                <p class="product-subtitle">Dipanshu Verma · Charcoal</p>
+                                <div class="product-rating">
+                                    <div class="rating-box"><span class="rating-val">4.8</span><span class="star">★</span></div>
+                                    <span class="reviews">(14)</span>
+                                </div>
+                                <div class="product-pricing">
+                                    <span class="price-now">₹4,800</span>
+                                    <span class="price-old">₹6,500</span>
+                                    <span class="discount-pct">26% off</span>
+                                </div>
+                                <p class="product-footer">Free shipping · Insured delivery</p>
+                            </div>
+                        </div>
+                    </a>
+                </div>
+            </section>
+        </div>
+    </main>
+
+    <!-- ────────── FOOTER ────────── -->
+    <footer id="footer" class="footer-section">
+        <div class="container">
+            <div class="footer-top">
+                <div class="footer-brand">
+                    <img src="logo.svg" alt="Kalacore" class="footer-logo">
+                    <p class="footer-tagline">Designing the future, one brushstroke at a time.</p>
+                </div>
+                <div class="footer-affiliation">
+                    <span class="aff-label">Affiliated with</span>
+                    <div class="aff-logos">
+                        <div class="logo-badge"><img src="skill_india.svg" alt="Skill India"></div>
+                        <div class="logo-badge"><img src="logo-nsdpi.png" alt="NSDPI"></div>
+                    </div>
+                </div>
+            </div>
+            <div class="footer-grid">
+                <div class="footer-col">
+                    <h4>Studio</h4>
+                    <a href="index.html#about">About</a>
+                    <a href="index.html#real-talk">Work</a>
+                    <a href="index.html#experimental">Process</a>
+                </div>
+                <div class="footer-col">
+                    <h4>Connect</h4>
+                    <a href="https://www.linkedin.com/in/kalacore-creations-225412349?utm_source=share_via&utm_content=profile&utm_medium=member_android"
+                        target="_blank">LinkedIn</a>
+                    <a href="https://www.instagram.com/kalacore_art_classes?igsh=MXVocDh0b2t2d290eA=="
+                        target="_blank">Instagram</a>
+                    <a href="https://youtube.com/@kalacore_art_classes?si=tY84wCbBZfweGU8a" target="_blank">YouTube</a>
+                </div>
+                <div class="footer-col">
+                    <h4>Contact</h4>
+                    <a href="mailto:kalacorecreations@gmail.com"
+                        class="footer-contact-link">kalacorecreations@gmail.com</a>
+                    <a href="https://wa.me/918077367055" target="_blank" class="footer-contact-link">80773 67055 (Call /
+                        WhatsApp)</a>
+                    <a href="https://wa.me/918273918360" target="_blank" class="footer-contact-link">82739 18360 (Call /
+                        WhatsApp)</a>
+                </div>
+            </div>
+            <div class="footer-bottom">
+                <p>© 2026 KALACORE FINE ART STUDIO · ALL RIGHTS RESERVED</p>
+            </div>
+        </div>
+    </footer>
+    
+    <script>
+        const productsData = {
+            "mor-utsav": {
+                title: "Mor Utsav",
+                artist: "Aanya Sharma",
+                year: "2024",
+                price: "₹8,500",
+                category: "Madhubani",
+                image: "kalacore abstract 2.jpg.jpeg",
+                description: "A vibrant Madhubani composition featuring a regal peacock surrounded by blooming marigolds. Hand-painted with natural pigments following the traditional Mithila style passed down through generations.",
+                medium: "Natural pigments on handmade paper",
+                size: "16 × 24 inches",
+                edition: "Original, 1 of 1"
+            },
+            "kashi-bhor": {
+                title: "Kashi Bhor",
+                artist: "Ishaan Mehta",
+                year: "2023",
+                price: "₹6,200",
+                category: "Watercolor",
+                image: "The silence of nature.jpg.jpeg",
+                description: "Capturing the ethereal morning light at the ghats of Varanasi. This watercolor piece uses soft bleeds and delicate layers to evoke the spiritual calm of the Ganges at dawn.",
+                medium: "Artist-grade watercolors on 300gsm cold-pressed paper",
+                size: "12 × 18 inches",
+                edition: "Original"
+            },
+            "vrindavan-leela": {
+                title: "Vrindavan Leela",
+                artist: "Radhika Joshi",
+                year: "2024",
+                price: "₹14,500",
+                category: "Pichwai",
+                image: "3.jpg",
+                description: "A detailed Pichwai painting depicting Shrinathji amidst the lush groves of Vrindavan. Gold foil accents and stone pigments bring a celestial glow to this traditional masterpiece.",
+                medium: "Stone pigments and gold foil on cotton fabric",
+                size: "24 × 36 inches",
+                edition: "Original"
+            },
+            "golden-horizon": {
+                title: "Golden Horizon",
+                artist: "Sumit Kumar",
+                year: "2024",
+                price: "₹15,500",
+                category: "Oil on Canvas",
+                image: "khat.jpg.jpeg",
+                description: "An expressive oil painting exploring the interplay of light and texture. The 'Golden Horizon' symbolizes hope and the infinite possibilities of the creative mind.",
+                medium: "Oil on stretched canvas",
+                size: "20 × 20 inches (Square)",
+                edition: "Original"
+            },
+            "divine-grace": {
+                title: "Divine Grace",
+                artist: "Meera Devi",
+                year: "2024",
+                price: "₹22,000",
+                category: "Traditional Art",
+                image: "divine-grace.png",
+                description: "A magnificent depiction of celestial grace, inspired by ancient temple murals. Intricate patterns and a rich palette create a sense of timeless devotion.",
+                medium: "Acrylic and mixed media",
+                size: "30 × 40 inches",
+                edition: "Original"
+            },
+            "natures-whisper": {
+                title: "Nature's Whisper",
+                artist: "Vikram Singh",
+                year: "2023",
+                price: "₹11,000",
+                category: "Landscape",
+                image: "1.jpeg",
+                description: "A serene landscape that captures the quiet conversation between the wind and the trees. Perfect for bringing a touch of nature's peace into a modern living space.",
+                medium: "Oil on canvas",
+                size: "18 × 24 inches",
+                edition: "Original"
+            },
+            "the-calm-soul": {
+                title: "The Calm Soul",
+                artist: "Ananya Roy",
+                year: "2024",
+                price: "₹9,500",
+                category: "Portrait",
+                image: "calm-soul.png",
+                description: "A meditative portrait exploring inner peace and silence. The soft, blended tones create a soothing visual experience that resonates with the viewer's own sense of calm.",
+                medium: "Oil on canvas",
+                size: "24 × 24 inches",
+                edition: "Original"
+            },
+            "ethereal-beauty": {
+                title: "Ethereal Beauty",
+                artist: "Rohan Gupta",
+                year: "2024",
+                price: "₹13,200",
+                category: "Contemporary",
+                image: "ethereal-beauty.png",
+                description: "A stunning contemporary abstract painting that explores fluid, ethereal shapes in shades of deep blue and gold. It represents the beauty found in movement and light.",
+                medium: "Mixed media on canvas",
+                size: "24 × 30 inches",
+                edition: "Original"
+            },
+            "mystic-forest": {
+                title: "Mystic Forest",
+                artist: "Karan Sharma",
+                year: "2023",
+                price: "₹18,900",
+                category: "Acrylic",
+                image: "2.jpg",
+                description: "A journey into the deep, mysterious heart of an enchanted forest. Vibrant colors and bold strokes create a dynamic and immersive environment.",
+                medium: "Acrylic on canvas",
+                size: "30 × 30 inches",
+                edition: "Original"
+            },
+            "royal-heritage": {
+                title: "Royal Heritage",
+                artist: "Rajesh Kumar",
+                year: "2024",
+                price: "₹35,000",
+                category: "Classic",
+                image: "4.HEIC.jpeg",
+                description: "A classic painting celebrating the rich cultural heritage of India. Gold leaf work and traditional motifs make this a truly regal addition to any collection.",
+                medium: "Oil and gold leaf on canvas",
+                size: "36 × 48 inches",
+                edition: "Original"
+            },
+            "abstract-mind": {
+                title: "Abstract Mind",
+                artist: "Pooja Verma",
+                year: "2024",
+                price: "₹7,800",
+                category: "Modern Art",
+                image: "2.jpg.jpeg",
+                description: "An exploration of thoughts and emotions through abstract form. This piece encourages personal interpretation and deep reflection.",
+                medium: "Acrylic and ink on paper",
+                size: "16 × 16 inches",
+                edition: "Original"
+            },
+            "village-life": {
+                title: "Village Life",
+                artist: "Suresh Patel",
+                year: "2024",
+                price: "₹5,500",
+                category: "Folk Art",
+                image: "3.jpg.jpeg",
+                description: "A charming depiction of daily life in an Indian village. Vibrant colors and simple forms capture the joy and community of rural living.",
+                medium: "Gouache on handmade paper",
+                size: "11 × 15 inches",
+                edition: "Original"
+            }
+        };
+
+        // Initialize Product Page
+        (function() {
+            console.log("Kalacore Product Detail V1.9 Active");
+            const params = new URLSearchParams(window.location.search);
+            const productId = params.get('id');
+            const product = productsData[productId] || (productId ? null : productsData['mor-utsav']);
+
+            if (product) {
+                document.querySelector('.product-main-title').textContent = product.title;
+                const artistTag = document.querySelector('.product-artist-tag');
+                artistTag.innerHTML = `By <strong>${product.artist}</strong> · ${product.year}`;
+                document.querySelector('.product-detail-price').textContent = product.price;
+                document.querySelector('.product-cat-label').textContent = product.category;
+                document.querySelector('.product-description p').textContent = product.description;
+                
+                const specVals = document.querySelectorAll('.spec-val');
+                specVals[0].textContent = product.medium;
+                specVals[1].textContent = product.size;
+                specVals[2].textContent = product.year;
+                specVals[3].textContent = product.edition;
+
+                const mainImg = document.querySelector('.detail-main-img');
+                const imgWrap = document.querySelector('.detail-img-wrap');
+                
+                if (mainImg) {
+                    imgWrap.classList.add('loading');
+                    mainImg.onload = () => {
+                        imgWrap.classList.remove('loading');
+                        mainImg.classList.add('loaded');
+                    };
+                    mainImg.onerror = () => {
+                        imgWrap.classList.remove('loading');
+                        console.error("Failed to load image:", product.image);
+                    };
+                    mainImg.src = encodeURI(product.image);
+                    mainImg.alt = product.title;
+                }
+
+                const waBtn = document.querySelector('.whatsapp-book-btn');
+                if (waBtn) {
+                    waBtn.onclick = (e) => {
+                        e.preventDefault();
+                        const message = `Hi Kalacore Team! I'm interested in booking the '${product.title}' painting. 🎨\n\n*Product Details:*\n- Category: ${product.category}\n- Size: ${product.size}\n- Price: ${product.price}\n\nPlease let me know the next steps for purchase.`;
+                        const encodedMsg = encodeURIComponent(message);
+                        const url1 = `https://wa.me/918077367055?text=${encodedMsg}`;
+                        const url2 = `https://wa.me/918273918360?text=${encodedMsg}`;
+                        window.open(url1, '_blank');
+                        setTimeout(() => window.open(url2, '_blank'), 500);
+                    };
+                }
+
+                document.title = `${product.title} - Kalacore Fine Art Studio`;
+            } else if (productId) {
+                 document.querySelector('.product-main-title').textContent = "Product Not Found";
+                 document.querySelector('.detail-img-wrap').classList.remove('loading');
+            }
+        })();
+    </script>
+
+</body>
+</html>
