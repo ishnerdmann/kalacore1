@@ -57,8 +57,6 @@ const tickCursor = () => {
     dropY += (mouseY - dropY) * 0.15;
     
     if (cursorDrop) {
-        cursorDrop.style.transform = `translate(${dropX}px, ${dropY}px)`;
-        
         // Stretch effect based on velocity
         const velX = mouseX - dropX;
         const velY = mouseY - dropY;
@@ -68,10 +66,11 @@ const tickCursor = () => {
         if (speed > 5) {
             cursorDrop.style.width = Math.min(30 + speed * 0.3, 60) + 'px';
             cursorDrop.style.height = Math.max(30 - speed * 0.1, 15) + 'px';
-            cursorDrop.style.transform += ` rotate(${angle}deg)`;
+            cursorDrop.style.transform = `translate(${dropX}px, ${dropY}px) rotate(${angle}deg)`;
         } else {
             cursorDrop.style.width = '30px';
             cursorDrop.style.height = '30px';
+            cursorDrop.style.transform = `translate(${dropX}px, ${dropY}px)`;
         }
     }
     
