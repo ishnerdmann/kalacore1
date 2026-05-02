@@ -1,4 +1,4 @@
-console.log('MainEngine: Script loading v1.9...');
+console.log('MainEngine: Script loading v2.0...');
 let lenis; // Define globally
 
 
