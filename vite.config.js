@@ -2,7 +2,7 @@ import { defineConfig } from 'vite';
 import { resolve } from 'path';
 
 export default defineConfig({
-  publicDir: false,
+  // For local development only
   build: {
     rollupOptions: {
       input: {

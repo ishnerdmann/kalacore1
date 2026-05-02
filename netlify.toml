@@ -1,19 +1,10 @@
 [build]
-  # No build command - serve files directly as-is
+  # No build step — serve static files directly
+  command = ""
   publish = "."
 
-# Cache headers for proper asset updates
+# Cache headers — no caching for HTML/JS/CSS so changes reflect immediately
 [[headers]]
-  for = "/*.js"
-  [headers.values]
-    Cache-Control = "public, max-age=0, must-revalidate"
-
-[[headers]]
-  for = "/*.css"
-  [headers.values]
-    Cache-Control = "public, max-age=0, must-revalidate"
-
-[[headers]]
-  for = "/*.html"
+  for = "/*"
   [headers.values]
     Cache-Control = "public, max-age=0, must-revalidate"
