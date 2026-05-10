@@ -8,3 +8,8 @@
   for = "/*"
   [headers.values]
     Cache-Control = "public, max-age=0, must-revalidate"
+
+[[redirects]]
+  from = "/googleca7a9cdbf7388112.html"
+  to = "/public/googleca7a9cdbf7388112.html"
+  status = 200
