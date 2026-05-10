@@ -14,6 +14,7 @@ const initEntranceAnimations = () => {
     gsap.from('.hero-cta-wrap', { opacity: 0, y: 15, duration: 0.7, delay: 0.9 });
 };
 
+/*
 // ─── CUSTOM CURSOR ───────────────────────────
 const cursor = document.getElementById('cursorDot');
 const cursorDrop = document.getElementById('cursorDrop');
@@ -85,6 +86,7 @@ function refreshCursorHover() {
     });
 }
 refreshCursorHover();
+*/
 
 // ─── APP INITIALIZATION ───
 function initApp() {
